@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+@theme {
+  /* 🟡 Cores oficiais Realme */
+  --color-realme-yellow: #FFC800;
+  --color-realme-yellow-bright: #FFD400;
+  --color-realme-yellow-dark: #E6B400;
+  --color-realme-black: #000000;
+  --color-realme-dark: #0A0A0A;
+  --color-realme-gray: #1A1A1A;
+  --color-realme-card: #141414;
+
+  /* 🌟 Sombras glow */
+  --shadow-realme-glow: 0 0 30px rgba(255, 200, 0, 0.25);
+  --shadow-realme-glow-lg: 0 0 60px rgba(255, 200, 0, 0.35);
+}
+
+:root {
+  --realme-yellow: #FFC800;
+  --realme-black: #000000;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+  background: #000000;
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--realme-yellow);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #FFD400;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--realme-yellow);
+  color: #000000;
+}
