@@ -8,7 +8,30 @@ import VozPagina from "@/components/VozPagina";
 
 const MODELOS = ["C71", "C73", "Note 70", "Note 80", "P4 Lite", "C100", "Note 60s"];
 
+// 🎲 Chance de cair 98% (o resto cai 95%)
 const chance98 = 60;
+
+/**
+ * 🕐 Gera um número determinístico baseado no dia atual.
+ * Isso faz com que o resultado seja o MESMO durante 24h,
+ * e mude automaticamente no dia seguinte.
+ */
+function sortearDoDia(): number {
+  // Pega a data de hoje no formato YYYYMMDD (ex: 20261009)
+  const hoje = new Date();
+  const semente =
+    hoje.getFullYear() * 10000 +
+    (hoje.getMonth() + 1) * 100 +
+    hoje.getDate();
+
+  // Gera um "número pseudoaleatório" usando a semente do dia
+  // (fórmula simples de hash pra dar aparência de aleatório)
+  const hash = (semente * 9301 + 49297) % 233280;
+  const aleatorio = hash / 233280; // valor entre 0 e 1
+
+  // Decide entre 95 e 98 com base na chance
+  return aleatorio * 100 < chance98 ? 98 : 95;
+}
 
 export default function ResultadoPage() {
   const router = useRouter();
@@ -20,13 +43,14 @@ export default function ResultadoPage() {
     if (sorteouRef.current) return;
     sorteouRef.current = true;
 
-    if (lead.porcentagem === 89 || lead.porcentagem === 98) {
+    // Se já veio uma porcentagem válida (95 ou 98), usa ela
+    if (lead.porcentagem === 95 || lead.porcentagem === 98) {
       setPorcentagem(lead.porcentagem);
       return;
     }
 
-    const sorteio = Math.random() * 100;
-    const resultado = sorteio < chance98 ? 98 : 89;
+    // Senão, sorteia com base no DIA
+    const resultado = sortearDoDia();
     setPorcentagem(resultado);
     setLead({ porcentagem: resultado });
     // eslint-disable-next-line react-hooks/exhaustive-deps
